@@ -1,0 +1,13 @@
+#!/bin/bash
+
+rm -rf ./stickers
+git clone https://github.com/Konsul117/stickers.git
+cd stickers
+npm install
+npm run build
+rm /output/frontend.tar
+cd build
+tar -cf /output/frontend.tar ./
+ssh-keyscan -H deploy-stickers-ssh >> /root/.ssh/known_hosts
+scp /output/frontend.tar root@deploy-stickers-ssh:/archives
+ssh root@deploy-stickers-ssh "cd /scripts/ && ./unpack_front"

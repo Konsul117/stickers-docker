@@ -1,0 +1,17 @@
+#!/bin/bash
+
+#хз откуда эта папка берётся, надо в образе пофиксить, чтоб не создавалась
+rm -rf html
+rm -rf ./stickers-server
+git clone https://github.com/Konsul117/stickers-server.git
+cd stickers-server
+composer install
+cd ..
+cp configs/db-local.php stickers-server/config
+cp configs/web-local.php stickers-server/config
+cd stickers-server
+rm /output/backend.tar
+tar -cf /output/backend.tar ./.
+ssh-keyscan -H deploy-stickers-ssh >> ~/.ssh/known_hosts
+scp /output/backend.tar root@deploy-stickers-ssh:/archives
+ssh root@deploy-stickers-ssh "cd /scripts/ && ./unpack_back"

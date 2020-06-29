@@ -1,0 +1,9 @@
+<?php
+
+return [
+    'dsn'               => 'mysql:host=mysql;dbname=stickers',
+    'username'          => 'root',
+    'password'          => '123',
+    'charset'           => 'utf8',
+    'enableSchemaCache' => true,
+];

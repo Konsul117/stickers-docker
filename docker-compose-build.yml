@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  front_build:
+    image: node:10.13
+    command: bash -c "cd /app && npm install"
+    volumes:
+      - ./src/frontend:/app
+
+  back_build:
+    build: 
+      context: ./src/backend
+    command: bash -c "cd /app && composer install" 
+    volumes:
+      - ./src/backend:/app

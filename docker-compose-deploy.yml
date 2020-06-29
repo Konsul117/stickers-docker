@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  php:
+    build:
+      context: ./deploy/backend
+    command: bash -c "cd /var/www && ./deploy"
+    volumes:
+      - ./deploy/backend:/var/www
+      - ./deploy/output:/output
+      - ./deploy/ssh:/root/.ssh
+      - ./deploy/cache/composer:/root/.composer
+      - ./deploy/cache/php:/root/.cache
+    networks:
+      - stickers_deploy
+
+  frontend:
+    image: node:10.13
+    command: bash -c "cd /app && ./deploy"
+    volumes:
+      - ./deploy/frontend:/app
+      - ./deploy/output:/output
+      - ./deploy/ssh:/root/.ssh
+      - ./deploy/cache/npm:/root/.npm
+    networks:
+      - stickers_deploy
+
+networks:
+  stickers_deploy:
+    external:
+      name: stickers_deploy
